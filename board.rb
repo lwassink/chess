@@ -48,7 +48,14 @@ class Board
   end
 
   def move(start_pos, end_pos)
-    raise "Cannot move into check" if self[start_pos].move_into_check?(end_pos)
+    piece = self[start_pos]
+    raise "Cannot move into check" if piece.move_into_check?(end_pos)
+    if piece.is_a?(Pawn)
+      piece.first_move = false
+      if end_pos[0] == 0 || end_pos[0] == 7
+        self[start_pos] = Queen.new(start_pos, self, piece.color)
+      end
+    end
     move!(start_pos, end_pos)
   end
 
@@ -68,10 +75,10 @@ class Board
     pieces.any? { |piece| piece.moves.include?(king_pos) }
   end
 
-  # def threatened?(pos, color)
-  #   pieces = pieces(other(color))
-  #   pieces.any? { |piece| piece.moves.include?(pos) }
-  # end
+  def in_threat?(pos, color)
+    pieces = pieces(other(color))
+    pieces.any? { |piece| piece.moves.include?(pos) }
+  end
 
   def checkmate?(color)
     return false unless in_check?(color)
@@ -128,5 +135,9 @@ class Board
 
 
     board
+  end
+
+  def inspect
+    "Board"
   end
 end

@@ -3,7 +3,7 @@ require 'colorize'
 require_relative 'display'
 
 class Piece
-  attr_reader :color
+  attr_reader :color, :score
   attr_accessor :position, :highlight
   attr_writer :board
 
@@ -24,6 +24,12 @@ class Piece
     new_board.in_check?(@color)
   end
 
+  def move_into_threat?(pos)
+    new_board = @board.dup
+    new_board.move!(@position, pos)
+    new_board.in_threat?(pos, @color)
+  end
+
   def valid_pos?(pos)
     @board.in_bounds?(pos) && @board[pos].color != @color
   end
@@ -40,15 +46,19 @@ class Piece
     end
   end
 
+  def <=>(other)
+    self.score <=> other.score
+  end
+
   def moves
     []
   end
 
   def to_s
-    str = to_char # @color == "W" ? to_char.red : to_char
+    str = to_char
     case @highlight
-    # when :threatened
-    #   str.on_red
+    when :threatened
+      str.on_red
     when :valid
       str.on_blue
     else
@@ -194,6 +204,7 @@ class King < SteppingPiece
 end
 
 class Pawn < SteppingPiece
+  attr_writer :first_move
   def initialize(position, board, color)
     @first_move = true
     super
@@ -204,7 +215,7 @@ class Pawn < SteppingPiece
   end
 
   def move_dirs
-    a, b = @color == "W" ? [-1, -2] : [1, 2]
+    a, b = ( @color == "W" ? [-1, -2] : [1, 2] )
 
     dirs = []
     x, y = @position
@@ -212,7 +223,7 @@ class Pawn < SteppingPiece
     dirs << [a, 0] if valid_pos?([x + a, y]) && !capture?([x + a, y])
 
     pos = [x + b, y]
-    dirs << [b,0] if @first_move && valid_pos?(pos) && !capture?(pos)
+    dirs << [b,0] if @first_move && valid_pos?(pos) && !capture?(pos) && !dirs.empty?
 
     attack_dirs = [a, -1], [a, 1]
     attack_dirs.pop if y == 7
@@ -220,7 +231,7 @@ class Pawn < SteppingPiece
 
     attack_dirs.each do |dir|
       pos = [x + dir.first, y + dir.last]
-      dirs << dir if capture?(pos)
+      dirs << dir if valid_pos?(pos) && capture?(pos)
     end
 
     dirs

@@ -1,6 +1,7 @@
 require_relative 'board'
 require_relative 'display'
 require_relative  'human_player'
+require_relative  'ai'
 
 class Game
   attr_accessor :board
@@ -16,6 +17,8 @@ class Game
   def play
     until @board.checkmate?("W") || @board.checkmate?("B")
       play_turn
+      system("clear")
+      @display.render
     end
 
     system("clear")
@@ -35,6 +38,8 @@ class Game
     end
 
     @board.move(start_pos, end_pos)
+
+
     @current_player = @current_player == @player1 ? @player2 : @player1
   end
 
@@ -44,8 +49,8 @@ class Game
     @board[start_pos].valid_moves.each do |pos|
       if @board[pos].highlight
         @board[pos].highlight = false
-      # elsif @board.threatened?(pos, @current_player)
-      #   @board[pos].highlight = :threatened
+      elsif @board[start_pos].move_into_threat?(pos)
+        @board[pos].highlight = :threatened
       else
         @board[pos].highlight = :valid
       end

@@ -7,12 +7,14 @@ class Display
 
   def initialize(board)
     @board = board
-    @cursor = Cursor.new([5,4], @board)
+    @cursor = Cursor.new([6,4], @board)
   end
 
   def render
+    puts '  ' + (0..7).to_a.join(' ')
+    letters = %w(a b c d e f g h)
     8.times do |row|
-      row_string = ""
+      row_string = "#{row} "
       8.times do |col|
         string = @board[[row, col]].to_s
         row_string += [row, col] == @cursor.cursor_pos ? string.on_green.bold : string
