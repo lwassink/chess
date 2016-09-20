@@ -10,7 +10,7 @@ class Game
     @board = board || Board.new
     @display = Display.new(@board)
     @player1 = AIPlayer.new(@board, @display, "W")
-    @player2 = AIPlayer.new(@board, @display, "B")
+    @player2 = HumanPlayer.new(@board, @display, "B")
     @current_player = @player1
   end
 
