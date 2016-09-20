@@ -45,7 +45,7 @@ class Piece
   end
 
   def to_s
-    str = @color == "W" ? to_char.red : to_char
+    str = to_char # @color == "W" ? to_char.red : to_char
     case @highlight
     # when :threatened
     #   str.on_red
@@ -94,7 +94,11 @@ class Bishop < SlidingPiece
   end
 
   def to_char
-    "\u2657".encode('utf-8')
+    if @color == "W"
+      "\u2657".encode('utf-8')
+    else
+      "\u265D".encode('utf-8')
+    end
   end
 
   def score
@@ -108,7 +112,11 @@ class Rook < SlidingPiece
   end
 
   def to_char
-    "\u2656".encode('utf-8')
+    if @color == "W"
+      "\u2656".encode('utf-8')
+    else
+      "\u265C".encode('utf-8')
+    end
   end
 
   def score
@@ -122,7 +130,11 @@ class Queen < SlidingPiece
   end
 
   def to_char
-    "\u2655".encode('utf-8')
+    if @color == "W"
+      "\u2655".encode('utf-8')
+    else
+      "\u265B".encode('utf-8')
+    end
   end
 
   def score
@@ -151,7 +163,11 @@ class Knight < SteppingPiece
   end
 
   def to_char
-    "\u2658".encode('utf-8')
+    if @color == "W"
+      "\u2658".encode('utf-8')
+    else
+      "\u265E".encode('utf-8')
+    end
   end
 
   def score
@@ -165,7 +181,11 @@ class King < SteppingPiece
   end
 
   def to_char
-    "\u2654".encode('utf-8')
+    if @color == "W"
+      "\u2654".encode('utf-8')
+    else
+      "\u265A".encode('utf-8')
+    end
   end
 
   def score
@@ -207,7 +227,11 @@ class Pawn < SteppingPiece
   end
 
   def to_char
-    "\u2659".encode('utf-8')
+    if @color == "W"
+      "\u2659".encode('utf-8')
+    else
+      "\u265F".encode('utf-8')
+    end
   end
 end
 
