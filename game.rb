@@ -31,7 +31,7 @@ class Game
       end_pos = @current_player.get_end(start_pos)
       highlight_moves(start_pos)
 
-      break unless end_pos == start_pos
+      break unless end_pos == :continue
     end
 
     @board.move(start_pos, end_pos)
@@ -54,13 +54,14 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  b = Board.new(Board.blank_board)
-  r = Rook.new([0,0], b, "W")
-  b[[0,0]] = r
-  r2 = Rook.new([0,1], b, "B")
-  b[[0,1]] = r2
+  # b = Board.new(Board.blank_board)
+  # r = Rook.new([0,0], b, "W")
+  # b[[0,0]] = r
+  # r2 = Rook.new([0,1], b, "B")
+  # b[[0,1]] = r2
+  #
+  # g = Game.new(b)
+  # g.play
 
-  g = Game.new(b)
-  g.play
-
+  Game.new.play
 end

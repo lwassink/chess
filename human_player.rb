@@ -23,7 +23,7 @@ class HumanPlayer
     end_pos = []
     until @board[start_pos].valid_moves.include?(end_pos)
       end_pos = @display.move
-      return end_pos if end_pos == start_pos
+      return :continue if end_pos == start_pos
     end
     end_pos
   end

@@ -94,7 +94,7 @@ class Bishop < SlidingPiece
   end
 
   def to_char
-    "B"
+    "\u2657".encode('utf-8')
   end
 
   def score
@@ -108,7 +108,7 @@ class Rook < SlidingPiece
   end
 
   def to_char
-    "R"
+    "\u2656".encode('utf-8')
   end
 
   def score
@@ -122,7 +122,7 @@ class Queen < SlidingPiece
   end
 
   def to_char
-    "Q"
+    "\u2655".encode('utf-8')
   end
 
   def score
@@ -151,7 +151,7 @@ class Knight < SteppingPiece
   end
 
   def to_char
-    "N"
+    "\u2658".encode('utf-8')
   end
 
   def score
@@ -165,7 +165,7 @@ class King < SteppingPiece
   end
 
   def to_char
-    "K"
+    "\u2654".encode('utf-8')
   end
 
   def score
@@ -207,7 +207,7 @@ class Pawn < SteppingPiece
   end
 
   def to_char
-    "P"
+    "\u2659".encode('utf-8')
   end
 end
 
