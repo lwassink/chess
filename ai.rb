@@ -1,15 +1,8 @@
 require_relative 'board'
 require_relative 'display'
+require_relative 'player'
 
-class AIPlayer
-  attr_reader :color
-
-  def initialize(board, display, color)
-    @board = board
-    @display = display
-    @color = color
-  end
-
+class AIPlayer < Player
   def capturable_pieces
     our_pieces = @board.pieces(@color)
     possible_captures = Hash.new([])
@@ -34,7 +27,7 @@ class AIPlayer
   end
 
   def get_start
-    sleep(0.3)
+    sleep(0.8)
     return pick_capture_move[0].position if pick_capture_move
     random_start
   end
@@ -47,11 +40,35 @@ class AIPlayer
   end
 
   def get_end(start_pos)
-    return pick_capture_move[1].position if pick_capture_move
-    @board[start_pos].valid_moves.sample
+    if pick_capture_move
+      end_pos = pick_capture_move[1].position
+    else
+      end_pos = @board[start_pos].valid_moves.sample
+    end
+
+    @last_move[0] = start_pos
+    @last_move[1] = end_pos
+
+    end_pos
   end
 
   def valid_start?
     @board.pieces(@color).include?(@board[@display.pos])
+  end
+
+  def rank(start_pos, end_pos)
+    piece = @board[start_pos]
+    r = 0
+    r += @board[end_pos].score + 0.1
+    r -= piece.score if piece.move_into_threat?(end_pos)
+    r
+  end
+
+  def possible_moves
+    moves = {}
+    our_pieces.each do |piece|
+      moves[piece] = piece.valid_moves
+    end
+    moves
   end
 end

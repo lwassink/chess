@@ -60,7 +60,9 @@ class Piece
     when :threatened
       str.on_red
     when :valid
-      str.on_blue
+      str.on_green
+    when :last_move
+      str.on_cyan
     else
       str
     end
@@ -253,5 +255,9 @@ class NullPiece < Piece
 
   def to_char
     '-'
+  end
+
+  def score
+    0
   end
 end

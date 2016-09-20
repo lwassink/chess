@@ -1,15 +1,8 @@
 require_relative 'board'
 require_relative 'display'
+require_relative 'player'
 
-class HumanPlayer
-  attr_reader :color
-
-  def initialize(board, display, color)
-    @board = board
-    @display = display
-    @color = color
-  end
-
+class HumanPlayer < Player
   def get_start
     start_pos = []
     loop do
@@ -25,6 +18,10 @@ class HumanPlayer
       end_pos = @display.move
       return :continue if end_pos == start_pos
     end
+
+    @last_move[0] = start_pos
+    @last_move[1] = end_pos
+
     end_pos
   end
 

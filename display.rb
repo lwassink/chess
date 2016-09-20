@@ -7,7 +7,7 @@ class Display
 
   def initialize(board)
     @board = board
-    @cursor = Cursor.new([6,4], @board)
+    @cursor = Cursor.new([8, 4], @board)
   end
 
   def render
@@ -17,7 +17,7 @@ class Display
       row_string = "#{row} "
       8.times do |col|
         string = @board[[row, col]].to_s
-        row_string += [row, col] == @cursor.cursor_pos ? string.on_green.bold : string
+        row_string += [row, col] == @cursor.cursor_pos ? string.on_yellow.bold : string
         row_string += " "
       end
       puts row_string
