@@ -96,6 +96,10 @@ class Bishop < SlidingPiece
   def to_char
     "B"
   end
+
+  def score
+    3
+  end
 end
 
 class Rook < SlidingPiece
@@ -106,6 +110,10 @@ class Rook < SlidingPiece
   def to_char
     "R"
   end
+
+  def score
+    5
+  end
 end
 
 class Queen < SlidingPiece
@@ -115,6 +123,10 @@ class Queen < SlidingPiece
 
   def to_char
     "Q"
+  end
+
+  def score
+    10
   end
 end
 
@@ -141,6 +153,10 @@ class Knight < SteppingPiece
   def to_char
     "N"
   end
+
+  def score
+    3
+  end
 end
 
 class King < SteppingPiece
@@ -151,12 +167,20 @@ class King < SteppingPiece
   def to_char
     "K"
   end
+
+  def score
+    100
+  end
 end
 
 class Pawn < SteppingPiece
   def initialize(position, board, color)
     @first_move = true
     super
+  end
+
+  def score
+    1
   end
 
   def move_dirs

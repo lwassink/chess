@@ -5,6 +5,14 @@ class Board
     @board = board || create_board
   end
 
+  def self.blank_board
+    board = []
+    8.times do
+      board << Array.new(8) { NullPiece.new }
+    end
+    board
+  end
+
   def create_board
     board = []
     board << back_row("B")
