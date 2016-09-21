@@ -55,7 +55,7 @@ class Piece
   end
 
   def to_s
-    str = to_char
+    str = " #{to_char} "
     case @highlight
     when :threatened
       str.on_red
@@ -254,7 +254,7 @@ class NullPiece < Piece
   end
 
   def to_char
-    '-'
+    ' '
   end
 
   def score

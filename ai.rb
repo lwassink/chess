@@ -62,11 +62,13 @@ class AIPlayer < Player
 
   def rank(start_pos, end_pos)
     piece = @board[start_pos]
+    capture_score = @board[end_pos].score
 
     r = 0
-    r += @board[end_pos].score + 0.6
+    r += capture_score
+    r += 0.9 if capture_score > 0
     r -= piece.score if piece.move_into_threat?(end_pos)
-    r += rand(0.5)
+    r += check?(piece, end_pos) ? 0.6 : rand(0.3) 
     r
   end
 
@@ -87,4 +89,9 @@ class AIPlayer < Player
     end
   end
 
+  def check?(piece, end_pos)
+    new_board = @board.dup
+    new_board.move!(piece.position, end_pos)
+    new_board.in_check?(@board.other(@color))
+  end
 end

@@ -11,14 +11,20 @@ class Display
   end
 
   def render
-    puts '  ' + (0..7).to_a.join(' ')
-    letters = %w(a b c d e f g h)
+    puts '   ' + ('a'..'h').to_a.join('  ')
     8.times do |row|
-      row_string = "#{row} "
+      row_string = "#{row + 1} "
       8.times do |col|
-        string = @board[[row, col]].to_s
-        row_string += [row, col] == @cursor.cursor_pos ? string.on_yellow.bold : string
-        row_string += " "
+        current_string = @board[[row, col]].to_s
+
+        unless @board[[row, col]].highlight
+          if (row + col).even?
+            current_string = current_string.on_white
+          end
+        end
+
+        current_string = current_string.blink.on_yellow if [row, col] == @cursor.cursor_pos
+        row_string += current_string
       end
       puts row_string
     end
