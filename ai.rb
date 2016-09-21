@@ -32,11 +32,13 @@ class AIPlayer < Player
     capture_score = @board[end_pos].score
 
     r = 0
-    r += capture_score
-    r += 0.9 if capture_score > 0
-    r -= piece.score if piece.move_into_threat?(end_pos)
-    r += 0.8 if check?(piece, end_pos)
-    r += Random.rand(0.3)
+    r += capture_score # it's good to capture good pieces
+    r += 0.9 if capture_score > 0 # in fact, you get a little bonus for capturing something
+    # this is so that pieces will be agressive and trade like for like
+    r -= piece.score if piece.move_into_threat?(end_pos) # it's bad to put yourself in a position where you could die
+    r += 0.8 if check?(piece, end_pos) # it's good to put the enemy in check
+    r += Random.rand(0.3) # if multiple moves are otherwise equal, let's not do the same
+    # thing every time
     r
   end
 

@@ -2,3 +2,6 @@ To play chess, run the game.rb file.
 
 You can change @player1 and @player2 in Game#initialize to be either a HumanPlayer or an AIPlayer.
 Then you can play vs. the computer, or another person, or watch the computer play itself.
+
+The cursor starts below the board so it won't be visible during AI vs. AI games.
+If you are playing as a human player, simply press the up arrow once and it will enter the board and remain visible from then on.
