@@ -1,0 +1,4 @@
+To play chess, run the game.rb file.
+
+You can change @player1 and @player2 in Game#initialize to be either a HumanPlayer or an AIPlayer.
+Then you can play vs. the computer, or another person, or watch the computer play itself.
