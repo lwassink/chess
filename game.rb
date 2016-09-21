@@ -9,13 +9,13 @@ class Game
   def initialize(board = nil)
     @board = board || Board.new
     @display = Display.new(@board)
-    @player1 = AIPlayer.new(@board, @display, "W")
-    @player2 = AIPlayer.new(@board, @display, "B")
+    @player1 = AIPlayer.new(@board, @display, :W)
+    @player2 = AIPlayer.new(@board, @display, :B)
     @current_player = @player1
   end
 
   def play
-    until @board.checkmate?("W") || @board.checkmate?("B")
+    until @board.checkmate?(:W) || @board.checkmate?(:B)
       play_turn
       system("clear")
       @display.render
@@ -23,7 +23,7 @@ class Game
 
     system("clear")
     @display.render
-    print @board.checkmate?("W") ? "Black" : "White"
+    print @board.checkmate?(:W) ? "Black" : "White"
     puts " won"
   end
 
@@ -76,9 +76,9 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   # b = Board.new(Board.blank_board)
-  # r = Rook.new([0,0], b, "W")
+  # r = Rook.new([0,0], b, :W)
   # b[[0,0]] = r
-  # r2 = Rook.new([0,1], b, "B")
+  # r2 = Rook.new([0,1], b, :B)
   # b[[0,1]] = r2
   #
   # g = Game.new(b)

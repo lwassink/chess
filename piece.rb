@@ -67,10 +67,10 @@ class Piece
   end
 
   def enemy?(piece)
-    if @color == "W"
-      piece.color == "B"
+    if @color == :W
+      piece.color == :B
     else
-      piece.color == "W"
+      piece.color == :W
     end
   end
 end
@@ -108,7 +108,7 @@ class Bishop < SlidingPiece
   end
 
   def to_char
-    if @color == "W"
+    if @color == :W
       "\u2657".encode('utf-8')
     else
       "\u265D".encode('utf-8')
@@ -126,7 +126,7 @@ class Rook < SlidingPiece
   end
 
   def to_char
-    if @color == "W"
+    if @color == :W
       "\u2656".encode('utf-8')
     else
       "\u265C".encode('utf-8')
@@ -144,7 +144,7 @@ class Queen < SlidingPiece
   end
 
   def to_char
-    if @color == "W"
+    if @color == :W
       "\u2655".encode('utf-8')
     else
       "\u265B".encode('utf-8')
@@ -177,7 +177,7 @@ class Knight < SteppingPiece
   end
 
   def to_char
-    if @color == "W"
+    if @color == :W
       "\u2658".encode('utf-8')
     else
       "\u265E".encode('utf-8')
@@ -195,7 +195,7 @@ class King < SteppingPiece
   end
 
   def to_char
-    if @color == "W"
+    if @color == :W
       "\u2654".encode('utf-8')
     else
       "\u265A".encode('utf-8')
@@ -219,7 +219,7 @@ class Pawn < SteppingPiece
   end
 
   def move_dirs
-    a, b = ( @color == "W" ? [-1, -2] : [1, 2] )
+    a, b = ( @color == :W ? [-1, -2] : [1, 2] )
 
     dirs = []
     x, y = @position
@@ -242,7 +242,7 @@ class Pawn < SteppingPiece
   end
 
   def to_char
-    if @color == "W"
+    if @color == :W
       "\u2659".encode('utf-8')
     else
       "\u265F".encode('utf-8')

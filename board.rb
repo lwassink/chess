@@ -55,7 +55,7 @@ class Board
   end
 
   def other(color)
-    color == "W" ? "B" : "W"
+    color == :W ? :B : :W
   end
 
   def pieces(color)
@@ -102,28 +102,33 @@ class Board
     "Board"
   end
 
+  # calculates the board score from the point of view of color
+  def score(color)
+
+  end
+
   private
 
   def create_board
     board = []
-    board << back_row("B")
-    board << front_row("B")
+    board << back_row(:B)
+    board << front_row(:B)
     4.times do
        board << null_row
     end
-    board << front_row("W")
-    board << back_row("W")
+    board << front_row(:W)
+    board << back_row(:W)
 
     board
   end
 
   def front_row(color)
-    y = color == "W" ? 6 : 1
+    color == :W ? y = 6 : y = 1
     Array.new(8) { |i| Pawn.new([y, i], self, color)}
   end
 
   def back_row(color)
-    y = color == "W" ? 7 : 0
+    y = color == :W ? 7 : 0
     [Rook.new([y,0], self, color),
       Knight.new([y,1], self, color),
       Bishop.new([y,2], self, color),
