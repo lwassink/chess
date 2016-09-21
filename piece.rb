@@ -30,22 +30,6 @@ class Piece
     new_board.in_threat?(pos, @color)
   end
 
-  def valid_pos?(pos)
-    @board.in_bounds?(pos) && @board[pos].color != @color
-  end
-
-  def capture?(pos)
-   enemy?(@board[pos])
-  end
-
-  def enemy?(piece)
-    if @color == "W"
-      piece.color == "B"
-    else
-      piece.color == "W"
-    end
-  end
-
   def <=>(other)
     self.score <=> other.score
   end
@@ -70,6 +54,24 @@ class Piece
 
   def inspect
     "#{self.class} #{self.position}"
+  end
+
+  private
+  
+  def valid_pos?(pos)
+    @board.in_bounds?(pos) && @board[pos].color != @color
+  end
+
+  def capture?(pos)
+   enemy?(@board[pos])
+  end
+
+  def enemy?(piece)
+    if @color == "W"
+      piece.color == "B"
+    else
+      piece.color == "W"
+    end
   end
 end
 

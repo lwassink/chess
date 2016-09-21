@@ -27,6 +27,8 @@ class Game
     puts " won"
   end
 
+  private
+
   def play_turn
     while true
       start_pos = @current_player.get_start

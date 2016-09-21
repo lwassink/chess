@@ -25,6 +25,8 @@ class HumanPlayer < Player
     end_pos
   end
 
+  private
+
   def valid_start?(start_pos)
     @board.pieces(@color).include?(@board[start_pos])
     true

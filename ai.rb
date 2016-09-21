@@ -19,6 +19,8 @@ class AIPlayer < Player
     end_pos
   end
 
+  private
+
   def best_move
     possible_moves.sort do |move1, move2|
       rank(move1[:start], move1[:end]) <=> rank(move2[:start], move2[:end])

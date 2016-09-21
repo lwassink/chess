@@ -13,40 +13,6 @@ class Board
     board
   end
 
-  def create_board
-    board = []
-    board << back_row("B")
-    board << front_row("B")
-    4.times do
-       board << null_row
-    end
-    board << front_row("W")
-    board << back_row("W")
-
-    board
-  end
-
-  def front_row(color)
-    y = color == "W" ? 6 : 1
-    Array.new(8) { |i| Pawn.new([y, i], self, color)}
-  end
-
-  def back_row(color)
-    y = color == "W" ? 7 : 0
-    [Rook.new([y,0], self, color),
-      Knight.new([y,1], self, color),
-      Bishop.new([y,2], self, color),
-      Queen.new([y,3], self, color),
-      King.new([y,4], self, color),
-      Bishop.new([y,5], self, color),
-      Knight.new([y,6], self, color),
-      Rook.new([y,7], self, color)]
-  end
-
-  def null_row
-    Array.new(8) { NullPiece.new }
-  end
-
   def move(start_pos, end_pos)
     piece = self[start_pos]
     raise "Cannot move into check" if piece.move_into_check?(end_pos)
@@ -92,11 +58,6 @@ class Board
     color == "W" ? "B" : "W"
   end
 
-  def find_king(color)
-    king = @board.flatten.find { |el| el.is_a?(King) && el.color == color }
-    king.position
-  end
-
   def pieces(color)
     @board.flatten.select { |el| el.color == color }
   end
@@ -139,5 +100,46 @@ class Board
 
   def inspect
     "Board"
+  end
+
+  private
+
+  def create_board
+    board = []
+    board << back_row("B")
+    board << front_row("B")
+    4.times do
+       board << null_row
+    end
+    board << front_row("W")
+    board << back_row("W")
+
+    board
+  end
+
+  def front_row(color)
+    y = color == "W" ? 6 : 1
+    Array.new(8) { |i| Pawn.new([y, i], self, color)}
+  end
+
+  def back_row(color)
+    y = color == "W" ? 7 : 0
+    [Rook.new([y,0], self, color),
+      Knight.new([y,1], self, color),
+      Bishop.new([y,2], self, color),
+      Queen.new([y,3], self, color),
+      King.new([y,4], self, color),
+      Bishop.new([y,5], self, color),
+      Knight.new([y,6], self, color),
+      Rook.new([y,7], self, color)]
+  end
+
+  def null_row
+    Array.new(8) { NullPiece.new }
+  end
+
+  def find_king(color)
+    king = @board.flatten.find { |el| el.is_a?(King) && el.color == color }
+    king.position
   end
 end
