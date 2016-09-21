@@ -9,7 +9,7 @@ class Game
   def initialize(board = nil)
     @board = board || Board.new
     @display = Display.new(@board)
-    @player1 = HumanPlayer.new(@board, @display, "W")
+    @player1 = AIPlayer.new(@board, @display, "W")
     @player2 = AIPlayer.new(@board, @display, "B")
     @current_player = @player1
   end
@@ -57,15 +57,14 @@ class Game
   end
 
   def switch_players
+    other_player.last_move.each do |pos|
+      @board[pos].highlight = false
+    end
     @current_player.last_move.each do |pos|
       @board[pos].highlight = :last_move
     end
 
     @current_player = other_player
-
-    @current_player.last_move.each do |pos|
-      @board[pos].highlight = false
-    end
   end
 
   def other_player
