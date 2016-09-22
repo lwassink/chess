@@ -48,9 +48,8 @@ class Board
 
   def checkmate?(color)
     return false unless in_check?(color)
-    king_pos = find_king(color)
-    pieces = pieces(other(color))
 
+    pieces = pieces(other(color))
     pieces(color).all? { |piece| piece.valid_moves.empty? }
   end
 
@@ -104,10 +103,37 @@ class Board
 
   # calculates the board score from the point of view of color
   def score(color)
+    s = 0
+    s += 2 * norm(move_count(color) / move_count(other(color)))
+    s += 10 * norm(total_piece_score(color) / total_piece_score(other(color)))
+    s += 0.5 if in_check?(other(color))
+    s -= 0.5 if in_check?(color)
+    s / 11
+  end
 
+  def possible_moves(color)
+    moves = []
+    pieces(color).each do |piece|
+      piece.valid_moves.each do |move|
+        moves += [{start: piece.position, end: move}]
+      end
+    end
+    moves
   end
 
   private
+
+  def norm(num)
+    1.0 / (1 + 2**num)
+  end
+
+  def move_count(color)
+    possible_moves(color).length
+  end
+
+  def total_piece_score(color)
+    pieces(color).reduce(0) { |acc, piece| acc + piece.score }
+  end
 
   def create_board
     board = []

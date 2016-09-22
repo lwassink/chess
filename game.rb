@@ -9,25 +9,39 @@ class Game
   def initialize(board = nil)
     @board = board || Board.new
     @display = Display.new(@board)
-    @player1 = AIPlayer.new(@board, @display, :W)
+    @player1 = HumanPlayer.new(@board, @display, :W)
     @player2 = AIPlayer.new(@board, @display, :B)
     @current_player = @player1
   end
 
   def play
     until @board.checkmate?(:W) || @board.checkmate?(:B)
+      if @current_player.possible_moves.empty?
+        declare_stalemate
+        return
+      end
+
       play_turn
       system("clear")
       @display.render
     end
 
-    system("clear")
-    @display.render
-    print @board.checkmate?(:W) ? "Black" : "White"
-    puts " won"
+    @board.checkmate?(:W) ? declare_victory("Black") : declare_victory("White")
   end
 
   private
+
+  def declare_victory(str)
+    system("clear")
+    @display.render
+    puts "Congratulations #{str}, you win!"
+  end
+
+  def declare_stalemate
+    system("clear")
+    @board.render
+    puts "Game over. It's a stalemate"
+  end
 
   def play_turn
     while true

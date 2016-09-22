@@ -42,16 +42,6 @@ class AIPlayer < Player
     r
   end
 
-  def possible_moves
-    moves = []
-    @board.pieces(@color).each do |piece|
-      piece.valid_moves.each do |move|
-        moves += [{start: piece.position, end: move}]
-      end
-    end
-    moves
-  end
-
   def check?(piece, end_pos)
     new_board = @board.dup
     new_board.move!(piece.position, end_pos)
