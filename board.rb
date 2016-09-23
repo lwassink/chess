@@ -103,8 +103,10 @@ class Board
 
   # calculates the board score from the point of view of color
   def score(color)
+    mc = move_count(other(color))
     s = 0
-    s += 2 * norm(move_count(color) / move_count(other(color)))
+    s += 2 * norm(move_count(color) / mc) unless mc == 0
+    s += 2 if mc == 0
     s += 10 * norm(total_piece_score(color) / total_piece_score(other(color)))
     s += 0.5 if in_check?(other(color))
     s -= 0.5 if in_check?(color)

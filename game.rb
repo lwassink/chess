@@ -9,7 +9,7 @@ class Game
   def initialize(board = nil)
     @board = board || Board.new
     @display = Display.new(@board)
-    @player1 = HumanPlayer.new(@board, @display, :W)
+    @player1 = AIPlayer.new(@board, @display, :W)
     @player2 = AIPlayer.new(@board, @display, :B)
     @current_player = @player1
   end
