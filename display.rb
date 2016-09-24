@@ -5,9 +5,11 @@ require_relative "board"
 class Display
 
 
-  def initialize(board)
+  def initialize(board) #, white_player, black_player)
     @board = board
     @cursor = Cursor.new([8, 4], @board)
+    # @white_player = white_player
+    # @black_player = black_player
   end
 
   def render
@@ -28,8 +30,10 @@ class Display
       end
       puts row_string
     end
-    puts "White score: #{'%.02f' % @board.score(:W).to_s}"
-    puts "Black score: #{'%.02f' % @board.score(:B).to_s}"
+    # puts "White score: #{'%.02f' % @board.score(:W).to_s}"
+    # puts "White best move: #{@white_player.best_move_by_score}"
+    # puts "Black score: #{'%.02f' % @board.score(:B).to_s}"
+    # puts "Black best move: #{@black_player.best_move_by_score}"
   end
 
   def move

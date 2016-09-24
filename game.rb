@@ -53,7 +53,7 @@ class Game
       break unless end_pos == :continue
     end
 
-    @board.move(start_pos, end_pos)
+    @board.move(Move.new(start_pos, end_pos))
 
     switch_players
   end

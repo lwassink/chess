@@ -1,6 +1,7 @@
 require 'singleton'
 require 'colorize'
 require_relative 'display'
+require_relative 'move'
 
 class Piece
   attr_reader :color, :score
@@ -20,13 +21,13 @@ class Piece
 
   def move_into_check?(pos)
     new_board = @board.dup
-    new_board.move!(@position, pos)
+    new_board.move!(Move.new(@position, pos))
     new_board.in_check?(@color)
   end
 
   def move_into_threat?(pos)
     new_board = @board.dup
-    new_board.move!(@position, pos)
+    new_board.move!(Move.new(@position, pos))
     new_board.in_threat?(pos, @color)
   end
 
@@ -57,7 +58,7 @@ class Piece
   end
 
   private
-  
+
   def valid_pos?(pos)
     @board.in_bounds?(pos) && @board[pos].color != @color
   end

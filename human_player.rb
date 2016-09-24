@@ -19,8 +19,8 @@ class HumanPlayer < Player
       return :continue if end_pos == start_pos
     end
 
-    @last_move[0] = start_pos
-    @last_move[1] = end_pos
+    @last_move.start = start_pos
+    @last_move.end = end_pos
 
     end_pos
   end

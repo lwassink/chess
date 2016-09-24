@@ -13,25 +13,27 @@ class Board
     board
   end
 
-  def move(start_pos, end_pos)
-    piece = self[start_pos]
-    raise "Cannot move into check" if piece.move_into_check?(end_pos)
+  def move(move)
+    piece = self[move.start]
+    raise "Cannot move into check" if piece.move_into_check?(move.end)
+
     if piece.is_a?(Pawn)
       piece.first_move = false
-      if end_pos[0] == 0 || end_pos[0] == 7
-        self[start_pos] = Queen.new(start_pos, self, piece.color)
+      if move.end[0] == 0 || move.end[0] == 7
+        self[move.start] = Queen.new(move.start, self, piece.color)
       end
     end
-    move!(start_pos, end_pos)
+
+    move!(move)
   end
 
-  def move!(start_pos, end_pos)
-    piece = self[start_pos]
-    raise "Invalid move: no piece at #{start_pos}" if piece.is_a?(NullPiece)
+  def move!(move)
+    piece = self[move.start]
+    raise ArgumentError, "Invalid move: no piece at #{move.start}" if piece.is_a?(NullPiece)
 
-    self[end_pos] = piece
-    piece.position = end_pos
-    self[start_pos] = NullPiece.new
+    self[move.end] = piece
+    piece.position = move.end
+    self[move.start] = NullPiece.new
   end
 
   def in_check?(color)
@@ -116,8 +118,8 @@ class Board
   def possible_moves(color)
     moves = []
     pieces(color).each do |piece|
-      piece.valid_moves.each do |move|
-        moves += [{start: piece.position, end: move}]
+      piece.valid_moves.each do |pos|
+        moves += [Move.new(piece.position, pos)]
       end
     end
     moves
@@ -134,7 +136,7 @@ class Board
   end
 
   def total_piece_score(color)
-    pieces(color).reduce(0) { |acc, piece| acc + piece.score }
+    pieces(color).reduce(0) { |sum, piece| sum + piece.score }
   end
 
   def create_board
