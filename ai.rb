@@ -4,12 +4,16 @@ require_relative 'player'
 require_relative 'chess_node'
 
 class AIPlayer < Player
-  MAX_NODE_COUNT = 1000
+  MAX_NODE_COUNT = 100
 
   def get_start
     sleep(0.8)
+    # puts "==================================================="
+    move = best_move
+    # puts "Move: #{move}"
+    # puts "==================================================="
 
-    @last_move = best_move
+    @last_move = move
     @last_move.start
   end
 
@@ -46,44 +50,59 @@ class AIPlayer < Player
     new_board.in_check?(@board.other(@color))
   end
 
+  #========================================
+
+  def best_move_by_score
+    setup_move_data
+    puts "setup complete..."
+    explore_nodes
+    puts "exploration complete..."
+    m = @board.possible_moves(@color).max_by do |move|
+      print "move: #{move}, score: "
+      p move_score(move)
+    end
+    puts "selection complete..."
+    m
+  end
+
   def setup_move_data
-    @move_data = {}
+    @node_count = {W: 0, B: 0}
     @node_queue = []
-    @node_count = 0
     @finished_leafs = []
+    @total_node_score = {W: 0, B:0}
 
     @board.possible_moves(@color).each do |move|
-      node = ChessNode.new(@board, move, color)
+      node = ChessNode.new(@board, move, @color)
       node.board.move(move)
-      @move_data[move] = node
-      @node_queue << node
-      @node_count += 1
+      @node_queue.push(node)
     end
-
-    @total_node_score = @node_queue.reduce(0) { |sum, node| sum + node.score }
   end
 
   def explore_nodes
-    MAX_NODE_COUNT.times do
+    MAX_NODE_COUNT.times do |i|
+      puts "#{i}th node being processed"
       proccess_node(@node_queue.shift)
     end
   end
 
   def proccess_node(node)
-    score = node.score
-    @node_count += 1
-    @total_node_score += score
+    @node_count[node.color] += 1
+    @total_node_score[node.color] += node.score
     node.generate_move_children
 
-    if score > 0.7 * ave_node_score
+    if node.score(node.other_color) > 0.8 * ave_node_score(node.other_color)
       @node_queue += node.children
     else
       @finished_leafs += node.children
     end
   end
 
-  def ave_node_score
-    @total_node_score / @node_count
+  def ave_node_score(color)
+    if @node_count[color] == 0
+      0
+    else
+      @total_node_score[color] / @node_count[color]
+    end
   end
 
   def leafs(move)
@@ -93,12 +112,6 @@ class AIPlayer < Player
   def move_score(move)
     leafs = leafs(move)
     count = leafs.count
-    leafs.reduce(0) { |sum, leaf| sum + leaf.score } / count
-  end
-
-  def best_move_by_score
-    setup_move_data
-    explore_nodes
-    @board.possible_moves(@color).max_by { |move| move_score(move) }
+    leafs.reduce(0) { |sum, leaf| sum + leaf.score(@color) } / count
   end
 end
