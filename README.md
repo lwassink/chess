@@ -1,10 +1,10 @@
 # Chess
 
-This is a fully playable, console chess app. To play chess, run the game.rb file.
+This is a fully playable, console chess app. To play, run the `game.rb` file.
 
-You can change @player1 and @player2 in Game#initialize to be either a HumanPlayer or an AIPlayer.
-Then you can play vs. the computer, or another person, or watch the computer play itself.
-Use the arrows to move the cursor and the space bar to select and move a piece.
+The `@player1` and `@player2` instance variables in `Game#initialize` can be set to be either `HumanPlayer` or `AIPlayer`.
+It is possible to play vs. the computer, vs. another person, or to watch the computer play itself.
+Use the arrow keys to move the cursor and the space bar to select and move a piece.
 
 ## Computer Player
 
